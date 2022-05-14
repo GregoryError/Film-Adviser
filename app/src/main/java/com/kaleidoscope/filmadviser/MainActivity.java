@@ -7,6 +7,9 @@ import android.util.Log;
 
 import com.kaleidoscope.filmadviser.util.NetworkUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,9 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String url = NetworkUtils.buildUrl(NetworkUtils.POPULARITY, 1).toString();
+        JSONObject jsonObject = NetworkUtils.loadJsonFromConnection(0, 1);
 
-        Log.i("RESULT", url);
-
+        if (jsonObject != null) {
+            Log.i("RESULT", jsonObject.toString());
+        }
+        else
+            Log.i("RESULT", "null object");
     }
 }

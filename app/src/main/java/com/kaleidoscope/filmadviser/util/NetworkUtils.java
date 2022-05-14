@@ -1,11 +1,18 @@
 package com.kaleidoscope.filmadviser.util;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class NetworkUtils {
@@ -26,7 +33,7 @@ public class NetworkUtils {
     public static final  int TOP_RATED = 1;
 
 
-    public static Request buildUrl(int sortBy, int page) {
+    private static Request buildUrl(int sortBy, int page) {
         Request result = null;
         String sortMethod = null;
         if (sortBy == POPULARITY) {
@@ -49,4 +56,53 @@ public class NetworkUtils {
 
         return result;
     }
+
+    private static class JSONLoadTask extends AsyncTask<Request, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(Request... requests) {
+            JSONObject jsonObject = null;
+            if (requests == null || requests.length == 0) {
+                return null;
+            } else {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                try {
+                    jsonObject = new JSONObject(okHttpClient.newCall(requests[0]).execute().body().string());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return jsonObject;
+        }
+    }
+
+
+    public static JSONObject loadJsonFromConnection(int sortBy, int page) {
+        JSONObject result = null;
+        try {
+            result = new JSONLoadTask().execute(buildUrl(sortBy, page)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
