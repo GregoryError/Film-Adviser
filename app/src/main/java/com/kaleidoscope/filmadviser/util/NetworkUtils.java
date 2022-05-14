@@ -1,15 +1,13 @@
 package com.kaleidoscope.filmadviser.util;
 
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
@@ -33,7 +31,7 @@ public class NetworkUtils {
     public static final  int TOP_RATED = 1;
 
 
-    private static Request buildUrl(int sortBy, int page) {
+    private static Request buildRequest(int sortBy, int page) {
         Request result = null;
         String sortMethod = null;
         if (sortBy == POPULARITY) {
@@ -46,7 +44,8 @@ public class NetworkUtils {
 
         strURL.append(BASE_URL)
                 .append(OPTION_TOP250)
-                .append(OPTION_PAGE).append(Integer.toString(1));
+                .append(OPTION_PAGE).append(Integer.toString(page));
+                // .append(OPTION_SORT).append(SORT_BY_NUM_YEAR);
 
         result = new Request.Builder()
                 .url(strURL.toString())
@@ -54,6 +53,7 @@ public class NetworkUtils {
                 .addHeader("X-API-KEY", API_KEY)
                 .build();
 
+        Log.i("REQUEST", result.toString());
         return result;
     }
 
@@ -81,7 +81,7 @@ public class NetworkUtils {
     public static JSONObject loadJsonFromConnection(int sortBy, int page) {
         JSONObject result = null;
         try {
-            result = new JSONLoadTask().execute(buildUrl(sortBy, page)).get();
+            result = new JSONLoadTask().execute(buildRequest(sortBy, page)).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

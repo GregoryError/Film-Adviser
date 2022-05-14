@@ -1,14 +1,15 @@
 package com.kaleidoscope.filmadviser;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 
+import com.kaleidoscope.filmadviser.data.Movie;
+import com.kaleidoscope.filmadviser.util.JsonUtils;
 import com.kaleidoscope.filmadviser.util.NetworkUtils;
-
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,12 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        JSONObject jsonObject = NetworkUtils.loadJsonFromConnection(0, 1);
+        JSONObject jsonObject = NetworkUtils.loadJsonFromConnection(0, 2);
 
-        if (jsonObject != null) {
-            Log.i("RESULT", jsonObject.toString());
+
+        ArrayList<Movie> movies = JsonUtils.getMoviesFromJson(jsonObject);
+
+        StringBuilder builder = new StringBuilder();
+        for (Movie movie : movies) {
+            builder.append(movie.getRuTitle()).append("\n");
         }
-        else
-            Log.i("RESULT", "null object");
+
+        Log.i("RESULT", builder.toString());
+
+
+//        if (jsonObject != null) {
+//            Log.i("RESULT", jsonObject.toString());
+//        }
+//        else
+//            Log.i("RESULT", "null object");
     }
 }
