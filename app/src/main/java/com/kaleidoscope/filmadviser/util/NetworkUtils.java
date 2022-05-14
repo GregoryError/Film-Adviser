@@ -2,9 +2,11 @@ package com.kaleidoscope.filmadviser.util;
 
 import android.net.Uri;
 
+
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
+
+import okhttp3.Request;
 
 public class NetworkUtils {
     private static final String BASE_URL = "https://kinopoiskapiunofficial.tech/api/v2.2/films/";
@@ -24,8 +26,8 @@ public class NetworkUtils {
     public static final  int TOP_RATED = 1;
 
 
-    public static URL buildUrl(int sortBy, int page) {
-        URL result = null;
+    public static Request buildUrl(int sortBy, int page) {
+        Request result = null;
         String sortMethod = null;
         if (sortBy == POPULARITY) {
             sortMethod = SORT_BY_NUM_VOTE;
@@ -33,16 +35,18 @@ public class NetworkUtils {
             sortMethod = SORT_BY_RATING;
         }
 
-        Uri uri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(OPTION_SORT, sortMethod)
-                .appendQueryParameter(OPTION_PAGE, Integer.toString(page))
+        StringBuilder strURL = new StringBuilder();
+
+        strURL.append(BASE_URL)
+                .append(OPTION_TOP250)
+                .append(OPTION_PAGE).append(Integer.toString(1));
+
+        result = new Request.Builder()
+                .url(strURL.toString())
+                .addHeader("accept", "application/json")
+                .addHeader("X-API-KEY", API_KEY)
                 .build();
 
-        try {
-            result = new URL(uri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 }
