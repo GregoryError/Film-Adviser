@@ -28,6 +28,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         void onPosterClick(int pos);
     }
 
+    public void setOnPosterClickListener(OnPosterClickListener onPosterClickListener) {
+        this.onPosterClickListener = onPosterClickListener;
+    }
+
     interface OnReachEndListener {
         void onReachEnd();
     }
@@ -36,9 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.onReachEndListener = onReachEndListener;
     }
 
-    public void setOnPosterClickListener(OnPosterClickListener onPosterClickListener) {
-        this.onPosterClickListener = onPosterClickListener;
-    }
+
 
     @NonNull
     @Override
