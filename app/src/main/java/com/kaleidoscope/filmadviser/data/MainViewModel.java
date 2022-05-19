@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.loader.content.AsyncTaskLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -44,6 +45,10 @@ public class MainViewModel extends AndroidViewModel {
         new DeleteTask().execute(movie);
     }
 
+    public LiveData<List<Movie>> getMovies() {
+        return movies;
+    }
+
     private static class DeleteTask extends AsyncTask<Movie, Void, Void> {
         @Override
         protected Void doInBackground(Movie... movies) {
@@ -53,7 +58,6 @@ public class MainViewModel extends AndroidViewModel {
             return null;
         }
     }
-
 
     private static class InsertMovieTask extends AsyncTask<Movie, Void, Void> {
         @Override
@@ -69,13 +73,12 @@ public class MainViewModel extends AndroidViewModel {
     private static class DeleteMoviesTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... integers) {
-                database.movieDao().deleteAllMovies();
-                return  null;
+            database.movieDao().deleteAllMovies();
+            return null;
         }
     }
 
     private static class GetMovieTask extends AsyncTask<Integer, Void, Movie> {
-
         @Override
         protected Movie doInBackground(Integer... integers) {
             if (integers != null && integers.length > 0) {
@@ -84,5 +87,32 @@ public class MainViewModel extends AndroidViewModel {
             return null;
         }
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

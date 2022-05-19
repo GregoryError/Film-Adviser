@@ -78,7 +78,7 @@ public class NetworkUtils {
                 .addHeader("X-API-KEY", API_KEY)
                 .build();
 
-        Log.i("REQUEST", result.toString());
+        // Log.i("REQUEST", result.toString());
         return result;
     }
 

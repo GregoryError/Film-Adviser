@@ -3,4 +3,8 @@
     <string name="poster_of_movie">постер к фильму</string>
     <string name="sort_popularity">По популярности</string>
     <string name="sort_rated">По рейтингу</string>
+    <string name="title_name">Название:</string>
+    <string name="original_title_text">Оригинальное название:</string>
+    <string name="rating_text">Рейтинг:</string>
+    <string name="release_year_text">Год релиза:</string>
 </resources>

@@ -15,6 +15,9 @@ public class Movie {
     private String backdropPath;
     private String releaseDate;
 
+    public Movie() {
+    }
+
     public Movie(int id, double imdbRating, double kinoRating, String ruTitle,
                  String originalTitle, String posterPath, String backdropPath, String releaseYear) {
         this.id = id;
