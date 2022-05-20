@@ -14,12 +14,13 @@ public class Movie {
     private String posterPath;
     private String backdropPath;
     private String releaseDate;
+    private String overview;
 
     public Movie() {
     }
 
     public Movie(int id, double imdbRating, double kinoRating, String ruTitle,
-                 String originalTitle, String posterPath, String backdropPath, String releaseYear) {
+                 String originalTitle, String posterPath, String backdropPath, String releaseYear, String overview) {
         this.id = id;
         this.imdbRating = imdbRating;
         this.kinoRating = kinoRating;
@@ -28,6 +29,15 @@ public class Movie {
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
         this.releaseDate = releaseYear;
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public int getId() {

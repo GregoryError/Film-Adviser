@@ -7,4 +7,5 @@
     <string name="original_title_text">Оригинальное название:</string>
     <string name="rating_text">Рейтинг:</string>
     <string name="release_year_text">Год релиза:</string>
+    <string name="description_label_text">Описание:</string>
 </resources>

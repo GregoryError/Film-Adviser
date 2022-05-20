@@ -57,7 +57,8 @@ public class JsonUtils {
                     kinoRate = objectMovie.getDouble(KEY_RATING);
                 if (!objectMovie.isNull(KEY_RELEASE_YEAR))
                     releaseYear = objectMovie.getString(KEY_RELEASE_YEAR);
-                Movie movie = new Movie(id, imdbRate, kinoRate, title, originalTitle, posterPath, backDropPath, releaseYear);
+                if (!objectMovie.isNull())             // TODO: Subrequest about move description; check other code
+                Movie movie = new Movie(id, imdbRate, kinoRate, title, originalTitle, posterPath, backDropPath, releaseYear, overview);
                 result.add(movie);
             }
         } catch (JSONException e) {

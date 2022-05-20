@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPosterClick(int pos) {
-                Toast.makeText(MainActivity.this, "" + pos, Toast.LENGTH_SHORT).show();
+                Movie movie = movieAdapter.getMovies().get(pos);
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("id", movie.getId());
+                startActivity(intent);
             }
         });
 
