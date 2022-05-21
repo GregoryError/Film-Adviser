@@ -20,7 +20,7 @@ public class Movie {
     }
 
     public Movie(int id, double imdbRating, double kinoRating, String ruTitle,
-                 String originalTitle, String posterPath, String backdropPath, String releaseYear, String overview) {
+                 String originalTitle, String posterPath, String backdropPath, String releaseYear) {
         this.id = id;
         this.imdbRating = imdbRating;
         this.kinoRating = kinoRating;
@@ -29,7 +29,6 @@ public class Movie {
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
         this.releaseDate = releaseYear;
-        this.overview = overview;
     }
 
     public String getOverview() {

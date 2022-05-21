@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.kaleidoscope.filmadviser.data.MainViewModel;
 import com.kaleidoscope.filmadviser.data.Movie;
+import com.kaleidoscope.filmadviser.util.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView textViewRating;
     private TextView textViewReleaseYear;
     private TextView textViewOverview;
+    private String description;
 
     private  int id;
 
@@ -29,12 +31,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        imageViewBigPoster = findViewById(R.id.imageViewBigPoster);
-        textViewTitle = findViewById(R.id.textViewTitle);
-        textViewOriginalTitle = findViewById(R.id.textViewOriginalTitle);
-        textViewRating = findViewById(R.id.textViewRating);
-        textViewReleaseYear = findViewById(R.id.textViewReleaseYear);
-        textViewOverview = findViewById(R.id.textViewOverview);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("id")) {
@@ -42,8 +38,18 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             finish();
         }
+
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         Movie movie = viewModel.getMovieById(id);
+
+        description = NetworkUtils.getDescription(movie.getId());
+
+        imageViewBigPoster = findViewById(R.id.imageViewBigPoster);
+        textViewTitle = findViewById(R.id.textViewTitle);
+        textViewOriginalTitle = findViewById(R.id.textViewOriginalTitle);
+        textViewRating = findViewById(R.id.textViewRating);
+        textViewReleaseYear = findViewById(R.id.textViewReleaseYear);
+        textViewOverview = findViewById(R.id.textViewOverview);
 
         Picasso.get().load(movie.getPosterPath()).into(imageViewBigPoster);
         textViewTitle.setText(movie.getRuTitle());
@@ -51,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
         textViewRating.setText( String.format("kinopoisk: %s, IMDB: %s", movie.getKinoRating(), movie.getImdbRating()));
         textViewReleaseYear.setText(movie.getReleaseDate());
         textViewOverview.setText(movie.getOverview());
+        textViewOverview.setText(description);
     }
 }
 

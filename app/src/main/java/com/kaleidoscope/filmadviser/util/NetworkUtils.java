@@ -54,6 +54,7 @@ public class NetworkUtils {
 
     private static Request buildRequest(int sortBy, int page) {
         Request result = null;
+
         String sortMethod = null;
         if (sortBy == POPULARITY) {
             sortMethod = SORT_BY_NUM_VOTE;
@@ -96,12 +97,10 @@ public class NetworkUtils {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
-
             }
             return jsonObject;
         }
     }
-
 
     public static JSONObject loadJsonFromConnection(int sortBy, int page) {
         JSONObject result = null;
@@ -113,6 +112,24 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static String getDescription(int kId) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/" + Integer.toString(kId))
+                .addHeader("accept", "application/json")
+                .addHeader("X-API-KEY", API_KEY)
+                .build();
+        try {
+            return new JSONLoadTask().execute(request).get().getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "Отсутствует";
     }
 
 }

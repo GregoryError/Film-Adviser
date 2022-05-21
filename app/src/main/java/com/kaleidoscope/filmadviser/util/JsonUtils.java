@@ -15,7 +15,6 @@ public class JsonUtils {
     private static double kinoRate;
     private static String title;
     private static String originalTitle;
-    private static String overview;
     private static String posterPath;
     private static String backDropPath;
     private static String releaseYear;
@@ -57,8 +56,7 @@ public class JsonUtils {
                     kinoRate = objectMovie.getDouble(KEY_RATING);
                 if (!objectMovie.isNull(KEY_RELEASE_YEAR))
                     releaseYear = objectMovie.getString(KEY_RELEASE_YEAR);
-                if (!objectMovie.isNull())             // TODO: Subrequest about move description; check other code
-                Movie movie = new Movie(id, imdbRate, kinoRate, title, originalTitle, posterPath, backDropPath, releaseYear, overview);
+                Movie movie = new Movie(id, imdbRate, kinoRate, title, originalTitle, posterPath, backDropPath, releaseYear);
                 result.add(movie);
             }
         } catch (JSONException e) {
@@ -66,5 +64,4 @@ public class JsonUtils {
         }
         return result;
     }
-
 }
