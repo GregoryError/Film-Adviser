@@ -13,7 +13,7 @@ public class Movie {
     private String originalTitle;
     private String posterPath;
     private String backdropPath;
-    private String releaseDate;
+    private String releaseYear;
     private String overview;
 
     public Movie() {
@@ -28,7 +28,7 @@ public class Movie {
         this.originalTitle = originalTitle;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
-        this.releaseDate = releaseYear;
+        this.releaseYear = releaseYear;
     }
 
     public String getOverview() {
@@ -67,8 +67,8 @@ public class Movie {
         return backdropPath;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getReleaseYear() {
+        return releaseYear;
     }
 
     public void setId(int id) {
@@ -99,7 +99,7 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleaseYear(String releaseDate) {
+        this.releaseYear = releaseDate;
     }
 }

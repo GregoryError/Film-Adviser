@@ -8,4 +8,6 @@
     <string name="rating_text">Рейтинг:</string>
     <string name="release_year_text">Год релиза:</string>
     <string name="description_label_text">Описание:</string>
+    <string name="add_to_favorite">Добавлено в избранное</string>
+    <string name="delete_from_favorite">Удалено из избранного</string>
 </resources>
