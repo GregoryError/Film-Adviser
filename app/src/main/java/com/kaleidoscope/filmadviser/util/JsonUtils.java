@@ -38,7 +38,7 @@ public class JsonUtils {
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_ITEMS);
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject objectMovie = jsonArray.getJSONObject(i);
-                if (objectMovie.isNull(KEY_BACKDROP_PATH))
+                if (objectMovie.isNull(KEY_BACKDROP_PATH) || objectMovie.isNull(KEY_POSTER_PATH))
                     continue;
                 if (!objectMovie.isNull(KEY_ID))
                     id = objectMovie.getInt(KEY_ID);

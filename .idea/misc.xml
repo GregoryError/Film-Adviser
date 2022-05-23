@@ -4,9 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/layout/activity_detail.xml" value="0.2111111111111111" />
-        <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/layout/activity_favorite.xml" value="0.49094202898550726" />
+        <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/layout/activity_favorite.xml" value="0.2674772036474164" />
         <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/layout/activity_main.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/layout/movie_item.xml" value="0.20925925925925926" />
+        <entry key="..\:/Users/Gregory/AndroidStudioProjects/FilmAdviser/app/src/main/res/menu/main_menu.xml" value="0.2574074074074074" />
       </map>
     </option>
   </component>

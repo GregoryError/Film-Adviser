@@ -2,6 +2,7 @@ package com.kaleidoscope.filmadviser.data;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -46,12 +47,9 @@ public class MainViewModel extends AndroidViewModel {
         return null;
     }
 
-
-
     public LiveData<List<FavoriteMovie>> getFavoriteMovies() {
         return favoriteMovies;
     }
-
 
     public void deleteFavoriteMovies(FavoriteMovie movie) {
         new DeleteFavoriteTask().execute(movie);
@@ -60,8 +58,6 @@ public class MainViewModel extends AndroidViewModel {
     public void insertFavoriteMovie(FavoriteMovie movie) {
         new InsertFavoriteTask().execute(movie);
     }
-
-
 
     public void deleteAllMovies() {
         new DeleteMoviesTask().execute();
@@ -79,8 +75,6 @@ public class MainViewModel extends AndroidViewModel {
         return movies;
     }
 
-
-
     private static class GetFavoriteMovieTask extends AsyncTask<Integer, Void, FavoriteMovie> {
         @Override
         protected FavoriteMovie doInBackground(Integer... integers) {
@@ -90,7 +84,6 @@ public class MainViewModel extends AndroidViewModel {
             return null;
         }
     }
-
 
     private static class DeleteFavoriteTask extends AsyncTask<FavoriteMovie, Void, Void> {
         @Override
@@ -111,7 +104,6 @@ public class MainViewModel extends AndroidViewModel {
             return null;
         }
     }
-
 
     private static class DeleteTask extends AsyncTask<Movie, Void, Void> {
         @Override
@@ -146,6 +138,7 @@ public class MainViewModel extends AndroidViewModel {
         @Override
         protected Movie doInBackground(Integer... integers) {
             if (integers != null && integers.length > 0) {
+              //  Log.i("MainViewModel OUT", integers[0].toString());
                 return database.movieDao().getMovieById(integers[0]);
             }
             return null;
