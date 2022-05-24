@@ -45,6 +45,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 break;
             case R.id.itemFavorite:
                 Intent intentToFavorite = new Intent(this, FavoriteActivity.class);
+                intentToFavorite.putExtra("isFavorite", true);
                 startActivity(intentToFavorite);
                 break;
         }

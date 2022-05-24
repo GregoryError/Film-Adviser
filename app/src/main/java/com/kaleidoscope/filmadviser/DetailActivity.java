@@ -82,7 +82,11 @@ public class DetailActivity extends AppCompatActivity {
 
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        movie = viewModel.getMovieById(id);
+        if (!intent.hasExtra("isFavorite")) {
+            movie = viewModel.getMovieById(id);
+        } else {
+            movie = viewModel.getFavoriteMovieById(id);
+        }
 
    //     Log.i("ON CREATE", "movie = " + movie.toString());
 
