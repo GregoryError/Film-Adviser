@@ -45,7 +45,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 break;
             case R.id.itemFavorite:
                 Intent intentToFavorite = new Intent(this, FavoriteActivity.class);
-                intentToFavorite.putExtra("isFavorite", true);
                 startActivity(intentToFavorite);
                 break;
         }
@@ -82,6 +81,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 Movie movie = adapter.getMovies().get(pos);
                 Intent intent = new Intent(FavoriteActivity.this, DetailActivity.class);
                 intent.putExtra("id", movie.getId());
+                intent.putExtra("isFavorite", true);
                 startActivity(intent);
             }
         });
