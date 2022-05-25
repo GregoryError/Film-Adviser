@@ -29,6 +29,18 @@ public class JsonUtils {
     private static final String KEY_RATING = "ratingImdb";
     private static final String KEY_RELEASE_YEAR = "year";
 
+    // views keys
+    private static final String KEY_AUTHOR = "author";
+    private static final String KEY_TYPE = "type";
+    private static final String KEY_DATE = "date";
+    private static final String KEY_DESCRIPTION = "description";
+
+    // videos keys
+    private static final String KEY_URL_VIDEO = "url";
+
+
+
+
 
     public static ArrayList<Movie> getMoviesFromJson(JSONObject jsonObject) {
         ArrayList<Movie> result = new ArrayList<>();

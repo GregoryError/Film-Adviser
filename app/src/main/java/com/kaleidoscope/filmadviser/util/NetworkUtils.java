@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
@@ -50,6 +51,55 @@ public class NetworkUtils {
 
     // TODO: more OPTIONS
 
+    private static Request buildRequestReviews(int id) {
+        StringBuilder strURL = new StringBuilder();
+        strURL.append(BASE_URL)
+                .append(Integer.toString(id))
+                .append("reviews?page=1&order=DATE_DESC");
+        Request result = new Request.Builder()
+                .url(strURL.toString())
+                .addHeader("accept", "application/json")
+                .addHeader("X-API-KEY", API_KEY)
+                .build();
+        return result;
+    }
+
+    private static Request buildRequestVideos(int id) {
+        StringBuilder strURL = new StringBuilder();
+        strURL.append(BASE_URL)
+                .append(Integer.toString(id))
+                .append("videos");
+        Request result = new Request.Builder()
+                .url(strURL.toString())
+                .addHeader("accept", "application/json")
+                .addHeader("X-API-KEY", API_KEY)
+                .build();
+        return result;
+    }
+
+    public static JSONObject loadJsonForReviews(int id) {
+        JSONObject result = null;
+        try {
+            result = new JSONLoadTask().execute(buildRequestReviews(id)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static JSONObject loadJsonForVideos(int id) {
+        JSONObject result = null;
+        try {
+            result = new JSONLoadTask().execute(buildRequestVideos(id)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
     private static Request buildRequest(int sortBy, int page) {
