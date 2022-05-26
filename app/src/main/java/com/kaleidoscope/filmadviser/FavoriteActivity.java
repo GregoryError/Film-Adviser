@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.kaleidoscope.filmadviser.adapters.MovieAdapter;
 import com.kaleidoscope.filmadviser.data.FavoriteMovie;
 import com.kaleidoscope.filmadviser.data.MainViewModel;
 import com.kaleidoscope.filmadviser.data.Movie;

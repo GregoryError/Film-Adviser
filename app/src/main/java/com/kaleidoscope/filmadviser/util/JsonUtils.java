@@ -1,6 +1,8 @@
 package com.kaleidoscope.filmadviser.util;
 
 import com.kaleidoscope.filmadviser.data.Movie;
+import com.kaleidoscope.filmadviser.data.Review;
+import com.kaleidoscope.filmadviser.data.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +31,7 @@ public class JsonUtils {
     private static final String KEY_RATING = "ratingImdb";
     private static final String KEY_RELEASE_YEAR = "year";
 
-    // views keys
+    // reviews keys
     private static final String KEY_AUTHOR = "author";
     private static final String KEY_TYPE = "type";
     private static final String KEY_DATE = "date";
@@ -37,8 +39,56 @@ public class JsonUtils {
 
     // videos keys
     private static final String KEY_URL_VIDEO = "url";
+    private static final String KEY_NAME = "name";
 
 
+    public static ArrayList<Review> getReviewsFromJSON(JSONObject jsonObject) {
+        ArrayList<Review> result = new ArrayList<>();
+        if (jsonObject == null)
+            return result;
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray(KEY_ITEMS);
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject jsonObjectReview = jsonArray.getJSONObject(i);
+                if (!jsonObjectReview.isNull(KEY_AUTHOR) && !jsonObjectReview.isNull(KEY_TYPE) &&
+                        !jsonObjectReview.isNull(KEY_DATE) && !jsonObjectReview.isNull(KEY_DESCRIPTION)) {
+                    String author = jsonObjectReview.getString(KEY_AUTHOR);
+                    String type = jsonObjectReview.getString(KEY_TYPE);
+                    String date = jsonObjectReview.getString(KEY_DATE);
+                    String description = jsonObjectReview.getString(KEY_DESCRIPTION);
+                    Review review = new Review(author, description, date, type);
+                    result.add(review);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public static ArrayList<Trailer> getTrailersFromJSON(JSONObject jsonObject) {
+        ArrayList<Trailer> result = new ArrayList<>();
+        if (jsonObject == null)
+            return result;
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray(KEY_ITEMS);
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject jsonObjectVideo = jsonArray.getJSONObject(i);
+                if (!jsonObjectVideo.isNull(KEY_URL_VIDEO) && !jsonObjectVideo.isNull(KEY_NAME)) {
+                    String url = jsonObjectVideo.getString(KEY_URL_VIDEO);
+                    String name = jsonObjectVideo.getString(KEY_NAME);
+                    Trailer trailer = new Trailer(url, name);
+                    result.add(trailer);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
 
@@ -76,4 +126,41 @@ public class JsonUtils {
         }
         return result;
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

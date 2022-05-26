@@ -10,18 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.kaleidoscope.filmadviser.data.FavoriteMovie;
+import com.kaleidoscope.filmadviser.adapters.MovieAdapter;
 import com.kaleidoscope.filmadviser.data.MainViewModel;
 import com.kaleidoscope.filmadviser.data.Movie;
 import com.kaleidoscope.filmadviser.util.JsonUtils;
@@ -30,7 +27,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
