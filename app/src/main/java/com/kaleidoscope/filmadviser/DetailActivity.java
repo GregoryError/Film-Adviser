@@ -4,9 +4,12 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,11 +20,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kaleidoscope.filmadviser.adapters.ReviewAdapter;
+import com.kaleidoscope.filmadviser.adapters.TrailerAdapter;
 import com.kaleidoscope.filmadviser.data.FavoriteMovie;
 import com.kaleidoscope.filmadviser.data.MainViewModel;
 import com.kaleidoscope.filmadviser.data.Movie;
+import com.kaleidoscope.filmadviser.data.Review;
+import com.kaleidoscope.filmadviser.data.Trailer;
+import com.kaleidoscope.filmadviser.util.JsonUtils;
 import com.kaleidoscope.filmadviser.util.NetworkUtils;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -33,6 +45,11 @@ public class DetailActivity extends AppCompatActivity {
     private TextView textViewOverview;
     private String description;
     private ImageView imageViewFavorite;
+
+    private RecyclerView recyclerViewTrailers;
+    private RecyclerView recyclerViewReviews;
+    private ReviewAdapter reviewAdapter;
+    private TrailerAdapter trailerAdapter;
 
     private  int id;
     private Movie movie;
@@ -69,8 +86,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-      //  Log.i("ON CREATE", "beg");
-
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("id")) {
             id = intent.getIntExtra("id", -1);
@@ -80,15 +95,12 @@ public class DetailActivity extends AppCompatActivity {
 
         Log.i("ON CREATE", "id = " + id);
 
-
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         if (!intent.hasExtra("isFavorite")) {
             movie = viewModel.getMovieById(id);
         } else {
             movie = viewModel.getFavoriteMovieById(id);
         }
-
-   //     Log.i("ON CREATE", "movie = " + movie.toString());
 
         description = NetworkUtils.getDescription(id);
 
@@ -108,6 +120,31 @@ public class DetailActivity extends AppCompatActivity {
         textViewOverview.setText(movie.getOverview());
         textViewOverview.setText(description);
         setFavorite();
+
+        recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
+        recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
+        trailerAdapter = new TrailerAdapter();
+        reviewAdapter = new ReviewAdapter();
+
+        trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
+            @Override
+            public void onTrailerClick(String url) {
+                Intent intentToTrailer = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intentToTrailer);
+            }
+        });
+
+        recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewTrailers.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewReviews.setAdapter(reviewAdapter);
+        recyclerViewTrailers.setAdapter(trailerAdapter);
+        JSONObject jsonObjectTrailers = NetworkUtils.loadJsonForVideos(movie.getId());
+        JSONObject jsonObjectReviews = NetworkUtils.loadJsonForReviews(movie.getId());
+        ArrayList<Trailer> trailers = JsonUtils.getTrailersFromJSON(jsonObjectTrailers);
+        ArrayList<Review> reviews = JsonUtils.getReviewsFromJSON(jsonObjectReviews);
+        reviewAdapter.setReviews(reviews);
+        trailerAdapter.setTrailers(trailers);
+
     }
 
     public void onClickChangeFavorite(View view) {

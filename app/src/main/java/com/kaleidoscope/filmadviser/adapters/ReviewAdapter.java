@@ -54,7 +54,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             super(itemView);
             textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
             textViewContent = itemView.findViewById(R.id.textViewDescription);
-            textViewDate = itemView.findViewById(R.id.textViewType);
+            textViewType = itemView.findViewById(R.id.textViewType);
             textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }

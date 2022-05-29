@@ -53,9 +53,9 @@ public class NetworkUtils {
 
     private static Request buildRequestReviews(int id) {
         StringBuilder strURL = new StringBuilder();
-        strURL.append(BASE_URL)
+        strURL.append(BASE_URL + '/')
                 .append(Integer.toString(id))
-                .append("reviews?page=1&order=DATE_DESC");
+                .append("/reviews?page=1&order=DATE_DESC");
         Request result = new Request.Builder()
                 .url(strURL.toString())
                 .addHeader("accept", "application/json")
@@ -66,9 +66,9 @@ public class NetworkUtils {
 
     private static Request buildRequestVideos(int id) {
         StringBuilder strURL = new StringBuilder();
-        strURL.append(BASE_URL)
+        strURL.append(BASE_URL + '/')
                 .append(Integer.toString(id))
-                .append("videos");
+                .append("/videos");
         Request result = new Request.Builder()
                 .url(strURL.toString())
                 .addHeader("accept", "application/json")

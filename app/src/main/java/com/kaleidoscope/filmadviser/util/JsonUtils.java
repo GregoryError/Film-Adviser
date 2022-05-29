@@ -1,5 +1,7 @@
 package com.kaleidoscope.filmadviser.util;
 
+import android.util.Log;
+
 import com.kaleidoscope.filmadviser.data.Movie;
 import com.kaleidoscope.filmadviser.data.Review;
 import com.kaleidoscope.filmadviser.data.Trailer;
@@ -74,6 +76,7 @@ public class JsonUtils {
             return result;
 
         try {
+            Log.i("JSON OUTPUT:", jsonObject.toString());
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_ITEMS);
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject jsonObjectVideo = jsonArray.getJSONObject(i);

@@ -8,7 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        >
 
         <ImageView
             android:id="@+id/imageViewBigPoster"
@@ -126,26 +128,27 @@
 
         <TextView
             android:id="@+id/textViewOverview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewLabelDescription" />
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTrailers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerViewTrailers"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewOverview"
                 />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewReviews"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerViewReviews"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerViewTrailers"
