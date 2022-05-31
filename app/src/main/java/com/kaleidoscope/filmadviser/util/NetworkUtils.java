@@ -1,8 +1,14 @@
 package com.kaleidoscope.filmadviser.util;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +57,7 @@ public class NetworkUtils {
 
     // TODO: more OPTIONS
 
-    private static Request buildRequestReviews(int id) {
+    public static Request buildRequestReviews(int id) {
         StringBuilder strURL = new StringBuilder();
         strURL.append(BASE_URL + '/')
                 .append(Integer.toString(id))
@@ -64,7 +70,7 @@ public class NetworkUtils {
         return result;
     }
 
-    private static Request buildRequestVideos(int id) {
+    public static Request buildRequestVideos(int id) {
         StringBuilder strURL = new StringBuilder();
         strURL.append(BASE_URL + '/')
                 .append(Integer.toString(id))
@@ -102,7 +108,7 @@ public class NetworkUtils {
     }
 
 
-    private static Request buildRequest(int sortBy, int page) {
+    public static Request buildRequest(int sortBy, int page) {
         Request result = null;
 
         String sortMethod = null;
@@ -129,8 +135,50 @@ public class NetworkUtils {
                 .addHeader("X-API-KEY", API_KEY)
                 .build();
 
-        // Log.i("REQUEST", result.toString());
         return result;
+    }
+
+    public static class JSONLoader extends AsyncTaskLoader<JSONObject> {
+
+        private Bundle bundle;
+
+        public JSONLoader(@NonNull Context context, Bundle bundle) {
+            super(context);
+            this.bundle = bundle;
+        }
+
+        @Override
+        protected void onStartLoading() {
+            super.onStartLoading();
+            forceLoad();
+        }
+
+        @Nullable
+        @Override
+        public JSONObject loadInBackground() {
+            if (bundle == null)
+                return null;
+
+            String urlString = bundle.getString("url");
+            Request request  = new Request.Builder()
+                    .url(urlString)
+                    .addHeader("accept", "application/json")
+                    .addHeader("X-API-KEY", API_KEY)
+                    .build();
+
+            JSONObject jsonObject = null;
+            if (request == null) {
+                return null;
+            } else {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                try {
+                    jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return jsonObject;
+        }
     }
 
     private static class JSONLoadTask extends AsyncTask<Request, Void, JSONObject> {

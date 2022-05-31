@@ -1,11 +1,13 @@
 package com.kaleidoscope.filmadviser.data;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movies")
 public class Movie {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int uniqueId;
     private int id;
     private double imdbRating;
     private double kinoRating;
@@ -19,6 +21,20 @@ public class Movie {
     public Movie() {
     }
 
+    public Movie(int uniqueId, int id, double imdbRating, double kinoRating, String ruTitle,
+                 String originalTitle, String posterPath, String backdropPath, String releaseYear) {
+        this.uniqueId = uniqueId;
+        this.id = id;
+        this.imdbRating = imdbRating;
+        this.kinoRating = kinoRating;
+        this.ruTitle = ruTitle;
+        this.originalTitle = originalTitle;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.releaseYear = releaseYear;
+    }
+
+    @Ignore
     public Movie(int id, double imdbRating, double kinoRating, String ruTitle,
                  String originalTitle, String posterPath, String backdropPath, String releaseYear) {
         this.id = id;
@@ -29,6 +45,14 @@ public class Movie {
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
         this.releaseYear = releaseYear;
+    }
+
+    public int getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
     }
 
     public String getOverview() {
