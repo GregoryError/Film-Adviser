@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -42,9 +43,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView textViewTopRated;
     private TextView textViewPopularity;
     private MainViewModel viewModel;
+    private ProgressBar progressBarLoading;
 
     private static final int LOADER_ID = 33;
     private LoaderManager loaderManager;
+
+    private static int page = 1;
+    private static int methodOfSort;
+    private static boolean isLoading = false;
 
 
     @Override
@@ -75,8 +81,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        progressBarLoading = findViewById(R.id.progressBarLoading);
 
         loaderManager = LoaderManager.getInstance(this);
+
 
         recyclerViewPosters = findViewById(R.id.recyclerViewPosters);
         textViewPopularity = findViewById(R.id.textViewPopularity);
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switchSort = findViewById(R.id.switchSort);
         switchSort.setChecked(true);
         movieAdapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
+
 
             @Override
             public void onPosterClick(int pos) {
@@ -101,7 +110,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         movieAdapter.setOnReachEndListener(new MovieAdapter.OnReachEndListener() {
             @Override
             public void onReachEnd() {
-               // Toast.makeText(MainActivity.this, "Конец списка!", Toast.LENGTH_SHORT).show();
+                if (!isLoading) {
+                    downloadData(methodOfSort, page);
+                }
+
             }
         });
 
@@ -109,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                page = 1;
                 setMethodOfSort(b);
             }
         });
@@ -119,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                movieAdapter.setMovies(movies);
+               // movieAdapter.setMovies(movies);
             }
         });
     }
@@ -136,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     private void setMethodOfSort(boolean isTopRated) {
-        int methodOfSort;
         if (isTopRated) {
             textViewTopRated.setTextColor(getResources().getColor(R.color.red_200));
             textViewPopularity.setTextColor(getResources().getColor(R.color.white));
@@ -147,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             methodOfSort = NetworkUtils.POPULARITY;
         }
 
-        downloadData(methodOfSort, 1);
+        downloadData(methodOfSort, page);
 
     }
 
@@ -165,6 +177,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<JSONObject> onCreateLoader(int id, @Nullable Bundle args) {
         NetworkUtils.JSONLoader jsonLoader = new NetworkUtils.JSONLoader(this, args);
+        jsonLoader.setOnStartLoadingListener(new NetworkUtils.JSONLoader.OnStartLoadingListener() {
+            @Override
+            public void onStartLoading() {
+                progressBarLoading.setVisibility(View.VISIBLE);
+
+                isLoading = true;
+            }
+        });
         return jsonLoader;
     }
 
@@ -176,7 +196,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             for (Movie m : movies) {
                 viewModel.insertMovie(m);
             }
+            movieAdapter.addMovies(movies);
+            ++page;
         }
+        isLoading = false;
+        progressBarLoading.setVisibility(View.INVISIBLE);
         loaderManager.destroyLoader(LOADER_ID);
     }
 
