@@ -44,7 +44,6 @@ public class NetworkUtils {
     public static final String OPTION_TYPE_MINI_SERIES = "MINI_SERIES";
 
 
-
     //sort by, page
     private static final String OPTION_SORT = "?order=";
     private static final String OPTION_PAGE = "&page=";
@@ -172,7 +171,7 @@ public class NetworkUtils {
                 return null;
 
             String urlString = bundle.getString("url");
-            Request request  = new Request.Builder()
+            Request request = new Request.Builder()
                     .url(urlString)
                     .addHeader("accept", "application/json")
                     .addHeader("X-API-KEY", API_KEY)
@@ -185,11 +184,13 @@ public class NetworkUtils {
                 OkHttpClient okHttpClient = new OkHttpClient();
                 try {
                     jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
-                } catch (IOException | JSONException e) {
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+                return jsonObject;
             }
-            return jsonObject;
         }
     }
 
@@ -243,6 +244,9 @@ public class NetworkUtils {
     }
 
 }
+
+
+
 
 
 

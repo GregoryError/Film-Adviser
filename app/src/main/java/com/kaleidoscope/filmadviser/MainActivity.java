@@ -95,9 +95,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerViewPosters.setAdapter(movieAdapter);
         switchSort = findViewById(R.id.switchSort);
         switchSort.setChecked(true);
+
+        switchSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                page = 1;
+                setMethodOfSort(b);
+            }
+        });
+
+        switchSort.setChecked(false);
+
         movieAdapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
-
-
             @Override
             public void onPosterClick(int pos) {
                 Movie movie = movieAdapter.getMovies().get(pos);
@@ -113,26 +122,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (!isLoading) {
                     downloadData(methodOfSort, page);
                 }
-
             }
         });
-
-        switchSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                page = 1;
-                setMethodOfSort(b);
-            }
-        });
-
-        switchSort.setChecked(false);
 
         LiveData<List<Movie>> moviesFromLiveData = viewModel.getMovies();
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-               // movieAdapter.setMovies(movies);
+               if (page == 1) {
+                   movieAdapter.setMovies(movies);
+               }
             }
         });
     }
@@ -158,9 +157,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             textViewPopularity.setTextColor(getResources().getColor(R.color.red_200));
             methodOfSort = NetworkUtils.POPULARITY;
         }
-
         downloadData(methodOfSort, page);
-
     }
 
     private void downloadData(int methodOfSort, int page) {
@@ -181,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onStartLoading() {
                 progressBarLoading.setVisibility(View.VISIBLE);
-
                 isLoading = true;
             }
         });
@@ -192,7 +188,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
         ArrayList<Movie> movies = JsonUtils.getMoviesFromJson(data);
         if (movies != null && !movies.isEmpty()) {
-            viewModel.deleteAllMovies();
+            if (page ==1 ) {
+                viewModel.deleteAllMovies();
+                movieAdapter.clear();
+            }
+
             for (Movie m : movies) {
                 viewModel.insertMovie(m);
             }
