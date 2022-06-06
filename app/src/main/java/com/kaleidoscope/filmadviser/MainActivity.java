@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,10 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void downloadData(int methodOfSort, int page) {
         Request request = NetworkUtils.buildRequest(methodOfSort, page);
         Bundle bundle = new Bundle();
-
         bundle.putString("url", request.url().toString());
-        Log.i("REQUEST STR", request.url().toString());
-
         loaderManager.restartLoader(LOADER_ID, bundle, this);
     }
 
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
         ArrayList<Movie> movies = JsonUtils.getMoviesFromJson(data);
         if (movies != null && !movies.isEmpty()) {
-            if (page ==1 ) {
+            if (page == 1) {
                 viewModel.deleteAllMovies();
                 movieAdapter.clear();
             }
@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         isLoading = false;
         progressBarLoading.setVisibility(View.INVISIBLE);
         loaderManager.destroyLoader(LOADER_ID);
+
     }
 
     @Override
