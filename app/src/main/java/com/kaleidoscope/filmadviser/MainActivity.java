@@ -2,6 +2,7 @@ package com.kaleidoscope.filmadviser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBarLoading = findViewById(R.id.progressBarLoading);
 
         loaderManager = LoaderManager.getInstance(this);
-
 
         recyclerViewPosters = findViewById(R.id.recyclerViewPosters);
         textViewPopularity = findViewById(R.id.textViewPopularity);

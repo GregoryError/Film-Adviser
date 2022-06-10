@@ -1,5 +1,6 @@
 package com.kaleidoscope.filmadviser.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        if (movies.size() >= 20 && position > movies.size() - 4 && onReachEndListener != null) {
+        if (movies.size() >= 20 && position > movies.size() - 8 && onReachEndListener != null) {
+            Log.i("ON_REACH_END pos:", Integer.toString(position));
             onReachEndListener.onReachEnd();
         }
         Movie movie = movies.get(position);

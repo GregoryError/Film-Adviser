@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -181,7 +182,15 @@ public class NetworkUtils {
             if (request == null) {
                 return null;
             } else {
-                OkHttpClient okHttpClient = new OkHttpClient();
+                //OkHttpClient okHttpClient = new OkHttpClient();
+
+                OkHttpClient okHttpClient; //  = new OkHttpClient();
+                OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+                httpBuilder.connectTimeout(15, TimeUnit.SECONDS);
+                httpBuilder.readTimeout(15, TimeUnit.SECONDS);
+                httpBuilder.writeTimeout(15, TimeUnit.SECONDS);
+                okHttpClient = httpBuilder.build();
+
                 try {
                     jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
                 } catch (JSONException e) {
@@ -202,7 +211,12 @@ public class NetworkUtils {
             if (requests == null || requests.length == 0) {
                 return null;
             } else {
-                OkHttpClient okHttpClient = new OkHttpClient();
+                OkHttpClient okHttpClient; //  = new OkHttpClient();
+                OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+                httpBuilder.connectTimeout(20, TimeUnit.SECONDS);
+                httpBuilder.readTimeout(20, TimeUnit.SECONDS);
+                httpBuilder.writeTimeout(20, TimeUnit.SECONDS);
+                okHttpClient = httpBuilder.build();
                 try {
                     jsonObject = new JSONObject(okHttpClient.newCall(requests[0]).execute().body().string());
                 } catch (IOException | JSONException e) {
