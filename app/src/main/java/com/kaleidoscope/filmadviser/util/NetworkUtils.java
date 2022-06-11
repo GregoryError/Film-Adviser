@@ -183,14 +183,12 @@ public class NetworkUtils {
                 return null;
             } else {
                 //OkHttpClient okHttpClient = new OkHttpClient();
-
                 OkHttpClient okHttpClient; //  = new OkHttpClient();
                 OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
                 httpBuilder.connectTimeout(15, TimeUnit.SECONDS);
                 httpBuilder.readTimeout(15, TimeUnit.SECONDS);
                 httpBuilder.writeTimeout(15, TimeUnit.SECONDS);
                 okHttpClient = httpBuilder.build();
-
                 try {
                     jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
                 } catch (JSONException e) {

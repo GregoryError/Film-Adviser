@@ -61,7 +61,8 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+       // inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.menu_share, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -76,6 +77,16 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.itemFavorite:
                 Intent intentToFavorite = new Intent(this, FavoriteActivity.class);
                 startActivity(intentToFavorite);
+                break;
+            case R.id.action_share:
+                // TODO: share activity + url to
+                Intent intent_share = new Intent();
+                intent_share.setAction(Intent.ACTION_SEND);
+                intent_share.putExtra(Intent.EXTRA_TEXT, "Я нашел этот фильм на Film Adviser\n" +
+                        movie.getPosterPath() +
+                        "\n\n Попробуй Film Adviser тут:");
+                intent_share.setType("text/plain");
+                startActivity(intent_share);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -144,7 +155,6 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<Review> reviews = JsonUtils.getReviewsFromJSON(jsonObjectReviews);
         reviewAdapter.setReviews(reviews);
         trailerAdapter.setTrailers(trailers);
-
     }
 
     public void onClickChangeFavorite(View view) {
