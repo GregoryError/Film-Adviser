@@ -128,7 +128,6 @@ public class NetworkUtils {
                 .append("&yearFrom=1000&yearTo=3000")
                 .append(OPTION_PAGE).append(Integer.toString(page));
 
-
         result = new Request.Builder()
                 .url(strURL.toString())
                 .addHeader("accept", "application/json")
@@ -182,18 +181,17 @@ public class NetworkUtils {
             if (request == null) {
                 return null;
             } else {
-                //OkHttpClient okHttpClient = new OkHttpClient();
-                OkHttpClient okHttpClient; //  = new OkHttpClient();
-                OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-                httpBuilder.connectTimeout(15, TimeUnit.SECONDS);
-                httpBuilder.readTimeout(15, TimeUnit.SECONDS);
-                httpBuilder.writeTimeout(15, TimeUnit.SECONDS);
-                okHttpClient = httpBuilder.build();
                 try {
+                    //OkHttpClient okHttpClient = new OkHttpClient();
+                    Log.i("loadInBackground()", "launched");
+                    OkHttpClient okHttpClient; //  = new OkHttpClient();
+                    OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+                    httpBuilder.connectTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.readTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.writeTimeout(4, TimeUnit.SECONDS);
+                    okHttpClient = httpBuilder.build();
                     jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return jsonObject;
@@ -209,15 +207,16 @@ public class NetworkUtils {
             if (requests == null || requests.length == 0) {
                 return null;
             } else {
-                OkHttpClient okHttpClient; //  = new OkHttpClient();
-                OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-                httpBuilder.connectTimeout(20, TimeUnit.SECONDS);
-                httpBuilder.readTimeout(20, TimeUnit.SECONDS);
-                httpBuilder.writeTimeout(20, TimeUnit.SECONDS);
-                okHttpClient = httpBuilder.build();
                 try {
+                    Log.i("JSONLoadTask", "launched");
+                    OkHttpClient okHttpClient; //  = new OkHttpClient();
+                    OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+                    httpBuilder.connectTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.readTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.writeTimeout(4, TimeUnit.SECONDS);
+                    okHttpClient = httpBuilder.build();
                     jsonObject = new JSONObject(okHttpClient.newCall(requests[0]).execute().body().string());
-                } catch (IOException | JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -77,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switchSort.setChecked(true);
     }
 
-
     private void setMethodOfSort(boolean isTopRated) {
         if (isTopRated) {
             textViewTopRated.setTextColor(getResources().getColor(R.color.red_200));
@@ -204,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         isLoading = false;
         progressBarLoading.setVisibility(View.INVISIBLE);
         loaderManager.destroyLoader(LOADER_ID);
-
     }
 
     @Override
