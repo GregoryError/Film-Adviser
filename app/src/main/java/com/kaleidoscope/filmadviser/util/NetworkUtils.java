@@ -186,9 +186,9 @@ public class NetworkUtils {
                     Log.i("loadInBackground()", "launched");
                     OkHttpClient okHttpClient; //  = new OkHttpClient();
                     OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-                    httpBuilder.connectTimeout(4, TimeUnit.SECONDS);
-                    httpBuilder.readTimeout(4, TimeUnit.SECONDS);
-                    httpBuilder.writeTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.connectTimeout(30, TimeUnit.SECONDS);
+                    httpBuilder.readTimeout(30, TimeUnit.SECONDS);
+                    httpBuilder.writeTimeout(30, TimeUnit.SECONDS);
                     okHttpClient = httpBuilder.build();
                     jsonObject = new JSONObject(okHttpClient.newCall(request).execute().body().string());
                 } catch (Exception e) {
@@ -211,9 +211,9 @@ public class NetworkUtils {
                     Log.i("JSONLoadTask", "launched");
                     OkHttpClient okHttpClient; //  = new OkHttpClient();
                     OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-                    httpBuilder.connectTimeout(4, TimeUnit.SECONDS);
-                    httpBuilder.readTimeout(4, TimeUnit.SECONDS);
-                    httpBuilder.writeTimeout(4, TimeUnit.SECONDS);
+                    httpBuilder.connectTimeout(30, TimeUnit.SECONDS);
+                    httpBuilder.readTimeout(30, TimeUnit.SECONDS);
+                    httpBuilder.writeTimeout(30, TimeUnit.SECONDS);
                     okHttpClient = httpBuilder.build();
                     jsonObject = new JSONObject(okHttpClient.newCall(requests[0]).execute().body().string());
                 } catch (Exception e) {

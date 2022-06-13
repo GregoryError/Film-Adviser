@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView textViewOverview;
     private String description;
     private ImageView imageViewFavorite;
+    private ScrollView scrollViewInfo;
 
     private RecyclerView recyclerViewTrailers;
     private RecyclerView recyclerViewReviews;
@@ -121,6 +123,7 @@ public class DetailActivity extends AppCompatActivity {
         textViewReleaseYear = findViewById(R.id.textViewReleaseYear);
         textViewOverview = findViewById(R.id.textViewOverview);
         imageViewFavorite = findViewById(R.id.imageViewAddToFavorite);
+        scrollViewInfo = findViewById(R.id.scrollViewInfo);
 
         Picasso.get().load(movie.getPosterPath()).into(imageViewBigPoster);
         textViewTitle.setText(movie.getRuTitle());
@@ -154,6 +157,8 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<Review> reviews = JsonUtils.getReviewsFromJSON(jsonObjectReviews);
         reviewAdapter.setReviews(reviews);
         trailerAdapter.setTrailers(trailers);
+
+        scrollViewInfo.scrollTo(0, 0);
     }
 
     public void onClickChangeFavorite(View view) {
