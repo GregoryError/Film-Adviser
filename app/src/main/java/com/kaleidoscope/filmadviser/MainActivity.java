@@ -2,7 +2,6 @@ package com.kaleidoscope.filmadviser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -90,10 +88,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        progressBarLoading = findViewById(R.id.progressBarLoading);
 
         loaderManager = LoaderManager.getInstance(this);
 
+        progressBarLoading = findViewById(R.id.progressBarLoading);
         recyclerViewPosters = findViewById(R.id.recyclerViewPosters);
         textViewPopularity = findViewById(R.id.textViewPopularity);
         textViewTopRated = findViewById(R.id.textViewTopRated);
@@ -108,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 page = 1;
                 setMethodOfSort(b);
+                downloadData(methodOfSort, page);
             }
         });
 
@@ -135,22 +134,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         LiveData<List<Movie>> moviesFromLiveData = viewModel.getMovies();
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
-            public void onChanged(List<Movie> movies) {
+            public void onChanged(@Nullable List<Movie> movies) {
                if (page == 1) {
                    movieAdapter.setMovies(movies);
                }
             }
         });
-    }
-
-    public void onClickSetPopularity(View view) {
-        setMethodOfSort(false);
-        switchSort.setChecked(false);
-    }
-
-    public void onClickSetTopRated(View view) {
-        setMethodOfSort(true);
-        switchSort.setChecked(true);
     }
 
     private void setMethodOfSort(boolean isTopRated) {
@@ -163,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             textViewPopularity.setTextColor(getResources().getColor(R.color.red_200));
             methodOfSort = NetworkUtils.POPULARITY;
         }
-        downloadData(methodOfSort, page);
     }
 
     private void downloadData(int methodOfSort, int page) {
@@ -187,6 +175,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return jsonLoader;
     }
 
+//    public void onClickSetPopularity(View view) {
+//        setMethodOfSort(false);
+//        switchSort.setChecked(false);
+//    }
+//
+//    public void onClickSetTopRated(View view) {
+//        setMethodOfSort(true);
+//        switchSort.setChecked(true);
+//    }
+
     @Override
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
         ArrayList<Movie> movies = JsonUtils.getMoviesFromJson(data);
@@ -195,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 viewModel.deleteAllMovies();
                 movieAdapter.clear();
             }
-
             for (Movie m : movies) {
                 viewModel.insertMovie(m);
             }

@@ -182,8 +182,6 @@ public class NetworkUtils {
                 return null;
             } else {
                 try {
-                    //OkHttpClient okHttpClient = new OkHttpClient();
-                    Log.i("loadInBackground()", "launched");
                     OkHttpClient okHttpClient; //  = new OkHttpClient();
                     OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
                     httpBuilder.connectTimeout(30, TimeUnit.SECONDS);
@@ -243,7 +241,9 @@ public class NetworkUtils {
                 .addHeader("X-API-KEY", API_KEY)
                 .build();
         try {
-            return new JSONLoadTask().execute(request).get().getString("description");
+            JSONObject jsonObject = new JSONLoadTask().execute(request).get();
+            if (jsonObject != null)
+                jsonObject.getString("description");
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

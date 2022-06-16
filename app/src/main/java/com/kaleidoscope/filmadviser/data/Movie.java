@@ -9,6 +9,7 @@ public class Movie {
     @PrimaryKey(autoGenerate = true)
     private int uniqueId;
     private int id;
+
     private double imdbRating;
     private double kinoRating;
     private String ruTitle;
@@ -17,9 +18,6 @@ public class Movie {
     private String backdropPath;
     private String releaseYear;
     private String overview;
-
-    public Movie() {
-    }
 
     public Movie(int uniqueId, int id, double imdbRating, double kinoRating, String ruTitle,
                  String originalTitle, String posterPath, String backdropPath, String releaseYear) {

@@ -53,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
     private ReviewAdapter reviewAdapter;
     private TrailerAdapter trailerAdapter;
 
-    private  int id;
+    private int id;
     private Movie movie;
     private FavoriteMovie favoriteMovie;
 
@@ -97,25 +97,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("id")) {
-            id = intent.getIntExtra("id", -1);
-        } else {
-            finish();
-        }
-
-        Log.i("ON CREATE", "id = " + id);
-
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        if (!intent.hasExtra("isFavorite")) {
-            movie = viewModel.getMovieById(id);
-        } else {
-            movie = viewModel.getFavoriteMovieById(id);
-        }
-
-        description = NetworkUtils.getDescription(id);
-
         imageViewBigPoster = findViewById(R.id.imageViewBigPoster);
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewOriginalTitle = findViewById(R.id.textViewOriginalTitle);
@@ -125,10 +106,27 @@ public class DetailActivity extends AppCompatActivity {
         imageViewFavorite = findViewById(R.id.imageViewAddToFavorite);
         scrollViewInfo = findViewById(R.id.scrollViewInfo);
 
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("id")) {
+            id = intent.getIntExtra("id", -1);
+        } else {
+            finish();
+        }
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        if (!intent.hasExtra("isFavorite")) {
+            movie = viewModel.getMovieById(id);
+        } else {
+            movie = viewModel.getFavoriteMovieById(id);
+            Log.i("OTPUT", movie.toString());
+        }
+
+        description = NetworkUtils.getDescription(id);
+
         Picasso.get().load(movie.getPosterPath()).into(imageViewBigPoster);
         textViewTitle.setText(movie.getRuTitle());
         textViewOriginalTitle.setText(movie.getOriginalTitle());
-        textViewRating.setText( String.format("kinopoisk: %s, IMDB: %s", movie.getKinoRating(), movie.getImdbRating()));
+        textViewRating.setText(String.format("kinopoisk: %s, IMDB: %s", movie.getKinoRating(), movie.getImdbRating()));
         textViewReleaseYear.setText(movie.getReleaseYear());
         textViewOverview.setText(movie.getOverview());
         textViewOverview.setText(description);
@@ -158,7 +156,7 @@ public class DetailActivity extends AppCompatActivity {
         reviewAdapter.setReviews(reviews);
         trailerAdapter.setTrailers(trailers);
 
-        scrollViewInfo.scrollTo(0, 0);
+      //  scrollViewInfo.scrollTo(0, 0);
     }
 
     public void onClickChangeFavorite(View view) {

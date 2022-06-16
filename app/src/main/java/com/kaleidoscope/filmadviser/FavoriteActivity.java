@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,6 +54,12 @@ public class FavoriteActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private int getColumnCount() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = (int) (displayMetrics.widthPixels / displayMetrics.density);
+        return (width / 185 > 2) ? width / 185 : 2;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +67,7 @@ public class FavoriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorite);
 
         recyclerViewFavoriteMovies = findViewById(R.id.recyclerViewFavoriteMovies);
-        recyclerViewFavoriteMovies.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerViewFavoriteMovies.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
         adapter = new MovieAdapter();
         recyclerViewFavoriteMovies.setAdapter(adapter);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
@@ -76,7 +84,6 @@ public class FavoriteActivity extends AppCompatActivity {
         });
 
         adapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
-
             @Override
             public void onPosterClick(int pos) {
                 Movie movie = adapter.getMovies().get(pos);
@@ -88,3 +95,27 @@ public class FavoriteActivity extends AppCompatActivity {
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
