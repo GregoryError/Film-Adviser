@@ -175,15 +175,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return jsonLoader;
     }
 
-//    public void onClickSetPopularity(View view) {
-//        setMethodOfSort(false);
-//        switchSort.setChecked(false);
-//    }
-//
-//    public void onClickSetTopRated(View view) {
-//        setMethodOfSort(true);
-//        switchSort.setChecked(true);
-//    }
+    public void onClickSetPopularity(View view) {
+        setMethodOfSort(false);
+        switchSort.setChecked(false);
+    }
+
+    public void onClickSetTopRated(View view) {
+        setMethodOfSort(true);
+        switchSort.setChecked(true);
+    }
 
     @Override
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
