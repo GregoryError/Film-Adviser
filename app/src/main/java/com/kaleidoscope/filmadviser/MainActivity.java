@@ -1,5 +1,7 @@
 package com.kaleidoscope.filmadviser;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Icon;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -19,11 +24,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaleidoscope.filmadviser.adapters.MovieAdapter;
+import com.kaleidoscope.filmadviser.data.FavoriteMovie;
 import com.kaleidoscope.filmadviser.data.MainViewModel;
 import com.kaleidoscope.filmadviser.data.Movie;
 import com.kaleidoscope.filmadviser.util.JsonUtils;
@@ -100,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerViewPosters.setAdapter(movieAdapter);
         switchSort = findViewById(R.id.switchSort);
         switchSort.setChecked(true);
+
+        setUpItemTouchHelper();
 
         switchSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -206,6 +216,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(@NonNull Loader<JSONObject> loader) {
+    }
+
+    private void setUpItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallBack = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int swipedPos = viewHolder.getAdapterPosition();
+                MovieAdapter movAdapter = (MovieAdapter)recyclerViewPosters.getAdapter();
+                if (direction == ItemTouchHelper.LEFT)
+                    movAdapter.remove(swipedPos);
+                if (direction == ItemTouchHelper.RIGHT) {
+                    Toast.makeText(MainActivity.this, R.string.add_to_favorite, LENGTH_SHORT).show();
+                    // TODO: check if already in favourite
+                    Movie movie = movAdapter.getMovieByPos(swipedPos);
+                    viewModel.insertFavoriteMovie(new FavoriteMovie(movie));
+
+                }
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallBack);
+        itemTouchHelper.attachToRecyclerView(recyclerViewPosters);
     }
 }
 

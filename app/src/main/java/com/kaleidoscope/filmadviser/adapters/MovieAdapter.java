@@ -1,6 +1,6 @@
 package com.kaleidoscope.filmadviser.adapters;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private List<Movie> movies;
     private OnPosterClickListener onPosterClickListener;
@@ -95,11 +95,45 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return movies;
     }
 
+    public Movie getMovieByPos(int pos) {
+        return movies.get(pos);
+    }
+
     public void addMovies(ArrayList<Movie> movies) {
         this.movies.addAll(movies);
         notifyDataSetChanged();
     }
+
+    public void remove(int pos) {
+        movies.remove(pos);
+        notifyDataSetChanged();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
