@@ -100,6 +100,7 @@ public class JsonUtils {
         if (jsonObject == null)
             return result;
         try {
+            Log.i("OUTPUT", jsonObject.toString());
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_ITEMS);
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject objectMovie = jsonArray.getJSONObject(i);
